@@ -6,7 +6,7 @@ pipeline {
 
         stage("Docker image build") {
             steps {
-                sh 'docker build -t py-app:latest .'
+                sh 'docker build -t py-app:latest -f docker/Dockerfile .'
 
             }
         }
