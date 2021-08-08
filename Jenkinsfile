@@ -7,7 +7,7 @@ pipeline {
         stage("Docker image build") {
             steps {
                 sh 'docker build -t py-app:1.$BUILD_NUMBER -f docker/Dockerfile .'
-
+                sh 'docker images'
             }
         }
 
