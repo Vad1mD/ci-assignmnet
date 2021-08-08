@@ -1,13 +1,16 @@
 pipeline {
 
+    environment{
+        dockerRepo = 'vadimdo93'
+    }
+
     agent any
 
     stages{
 
         stage("Docker image build") {
             steps {
-                sh 'docker build -t py-app:latest .'
-
+                sh 'docker build -t $dockerRepo/py-app -t $dockerRepo/py-app:$BRANCH_NAME.$BUILD_NUMBER -f docker/Dockerfile .'
             }
         }
 
@@ -18,8 +21,16 @@ pipeline {
                     usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')
                 ]){
                 sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
-                sh "docker push ${DOCKER_USER}/py-app:latest"
+                sh "docker push $dockerRepo/py-app:$BRANCH_NAME.$BUILD_NUMBER"
+                sh "docker push $dockerRepo/py-app"
+
                 }
+            }
+        }
+
+        stage("Docker clean up") {
+            steps {
+                sh "docker rmi $dockerRepo/py-app"
             }
         }
     }
