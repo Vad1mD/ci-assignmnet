@@ -23,6 +23,7 @@ pipeline {
                 ]){
                 sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
                 sh "docker push $dockerRepo/py-app:$BRANCH_NAME.$BUILD_NUMBER"
+                sh "docker rmi $dockerRepo/py-app:$BRANCH_NAME.$BUILD_NUMBER"
                 }
             }
         }
