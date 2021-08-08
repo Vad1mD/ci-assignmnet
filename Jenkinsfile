@@ -31,6 +31,7 @@ pipeline {
         stage("Docker clean up") {
             steps {
                 sh "docker rmi $dockerRepo/py-app"
+                sh "docker rmi $dockerRepo/py-app:$BRANCH_NAME.$BUILD_NUMBER"
             }
         }
     }
