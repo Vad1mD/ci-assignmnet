@@ -1,5 +1,6 @@
 from flask import Flask
 import fire
+import requests
 
 app = Flask(__name__)
 
